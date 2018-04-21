@@ -57,6 +57,7 @@ import android.os.SystemClock;
 import android.os.UserHandle;
 import android.os.Vibrator;
 import android.provider.Settings;
+import android.provider.Settings.SettingNotFoundException;
 import android.service.wallpaper.WallpaperService;
 import android.text.TextUtils;
 import android.util.Log;
@@ -135,6 +136,7 @@ public class ActionHandler {
     public static final String SYSTEMUI_TASK_SPLIT_SCREEN = "task_split_screen";
     public static final String SYSTEMUI_TASK_ONE_HANDED_MODE_LEFT = "task_one_handed_mode_left";
     public static final String SYSTEMUI_TASK_ONE_HANDED_MODE_RIGHT = "task_one_handed_mode_right";
+    public static final String SYSTEMUI_TASK_BRIGHTNESS_MODE = "task_brightness_mode";
 
     public static final String INTENT_SHOW_POWER_MENU = "action_handler_show_power_menu";
     public static final String INTENT_TOGGLE_SCREENRECORD = "action_handler_toggle_screenrecord";
@@ -149,7 +151,7 @@ public class ActionHandler {
         sDisabledActions.add(SYSTEMUI_TASK_ONE_HANDED_MODE_LEFT);
         sDisabledActions.add(SYSTEMUI_TASK_ONE_HANDED_MODE_RIGHT);
         // we need to make this more reliable when the user tap the partial screenshot button
-        // quickly and more times 
+        // quickly and more times
         sDisabledActions.add(SYSTEMUI_TASK_REGION_SCREENSHOT);
     }
 
@@ -187,7 +189,8 @@ public class ActionHandler {
         OneHandedModeLeft(SYSTEMUI_TASK_ONE_HANDED_MODE_LEFT, SYSTEMUI, "label_action_one_handed_mode_left", "ic_sysbar_one_handed_mode_left"),
         OneHandedModeRight(SYSTEMUI_TASK_ONE_HANDED_MODE_RIGHT, SYSTEMUI, "label_action_one_handed_mode_right", "ic_sysbar_one_handed_mode_right"),
         MediaArrowLeft(SYSTEMUI_TASK_MEDIA_PREVIOUS, SYSTEMUI, "label_action_media_left", "ic_skip_previous"),
-        MediaArrowRight(SYSTEMUI_TASK_MEDIA_NEXT, SYSTEMUI, "label_action_media_right", "ic_skip_next");
+        MediaArrowRight(SYSTEMUI_TASK_MEDIA_NEXT, SYSTEMUI, "label_action_media_right", "ic_skip_next"),
+        BrightnessMode(SYSTEMUI_TASK_BRIGHTNESS_MODE, SYSTEMUI, "label_action_brightness_mode", "ic_brightness_mode");
 
         String mAction;
         String mResPackage;
@@ -228,7 +231,8 @@ public class ActionHandler {
             SystemAction.VolumePanel, SystemAction.ClearNotifications,
             SystemAction.SplitScreen, SystemAction.RegionScreenshot,
             SystemAction.OneHandedModeLeft, SystemAction.OneHandedModeRight,
-            SystemAction.MediaArrowLeft, SystemAction.MediaArrowRight
+            SystemAction.MediaArrowLeft, SystemAction.MediaArrowRight,
+            SystemAction.BrightnessMode
     };
 
     public static class ActionIconResources {
@@ -661,6 +665,8 @@ public class ActionHandler {
         } else if (action.equals(SYSTEMUI_TASK_ONE_HANDED_MODE_RIGHT)) {
 //            toggleOneHandedMode(context, "right");
             return;
+        } else if (action.equals(SYSTEMUI_TASK_BRIGHTNESS_MODE)) {
+            brightnessMode(context);
         }
     }
 
@@ -1039,4 +1045,27 @@ public class ActionHandler {
             Settings.Global.putString(context.getContentResolver(), Settings.Global.SINGLE_HAND_MODE, "");
     }
     */
+
+    public static void brightnessMode(Context context) {
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        int minValue = pm.getMinimumScreenBrightnessSetting();
+        int maxValue = pm.getMaximumScreenBrightnessSetting();
+        int currentValue = -1;
+
+        try  {
+        currentValue = android.provider.Settings.System.getInt(
+            context.getContentResolver(),
+            android.provider.Settings.System.SCREEN_BRIGHTNESS);
+        } catch (SettingNotFoundException e){
+            //Do nothing
+        }
+
+        if (currentValue != -1) {
+            if (maxValue > currentValue) {
+                pm.setBacklightBrightness(maxValue);
+            } else {
+                pm.setBacklightBrightness(minValue);
+            }
+        }
+    }
 }
