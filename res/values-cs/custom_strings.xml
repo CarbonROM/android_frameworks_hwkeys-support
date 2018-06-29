@@ -34,7 +34,7 @@
   <string name="label_action_hotspot">Hotspot</string>
   <string name="label_action_last_app">Poslední aplikace</string>
   <string name="label_action_overview">Nedávné</string>
-  <string name="label_action_power_menu">Nabídka tlačítka Vypnout</string>
+  <string name="label_action_power_menu">Menu napájení</string>
   <string name="label_action_menu">Nabídka</string>
   <string name="label_action_back">Zpět</string>
   <string name="label_action_home">Domů</string>
