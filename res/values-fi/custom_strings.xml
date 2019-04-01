@@ -16,14 +16,14 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Bindable action labels -->
-  <string name="label_action_no_action">Ei toimintoa</string>
-  <string name="label_action_settings_panel">Asetusvalikko</string>
-  <string name="label_action_notification_panel">Ilmoitusvalikko</string>
-  <string name="label_action_screenshot">Kuvakaappaus</string>
-  <string name="label_action_region_screenshot">Osittainen kuvakaappaus</string>
-  <string name="label_action_screenrecord">Tallenna näyttöä</string>
-  <string name="label_action_expanded_desktop">Laajennettu työpöytä</string>
-  <string name="label_action_flashlight">Taskulamppu</string>
-  <!-- App killed message -->
+    <!-- Bindable action labels -->
+    <string name="label_action_no_action">Ei toimintoa</string>
+    <string name="label_action_settings_panel">Asetusvalikko</string>
+    <string name="label_action_notification_panel">Ilmoitusvalikko</string>
+    <string name="label_action_screenshot">Kuvakaappaus</string>
+    <string name="label_action_region_screenshot">Osittainen kuvakaappaus</string>
+    <string name="label_action_screenrecord">Tallenna näyttöä</string>
+    <string name="label_action_expanded_desktop">Laajennettu työpöytä</string>
+    <string name="label_action_flashlight">Taskulamppu</string>
+    <!-- App killed message -->
 </resources>
